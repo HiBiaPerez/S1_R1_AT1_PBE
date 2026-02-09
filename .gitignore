@@ -1,0 +1,6 @@
+# "gitignore" não é enviado para o git hug porque ocupa muito espaço
+# === NODE ===
+node_modules/
+
+# === ENV ===
+.env
