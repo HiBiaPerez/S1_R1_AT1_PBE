@@ -1,10 +1,11 @@
 // Chama o model (Que faz a consulta no banco)
-import Categorias from '../models/Categorias.js'
+import CategoryService from '../services/CategoryService.js'
 
+class CategoryController {
 // Função para listar as categorias, lista todas as categorias pois colocar (SELECT *)
-async function indexCategories(req, res) {
+async indexCategories(req, res) {
     try {
-        const categorias = await Categorias.getAllCategories();
+        const categorias = await CategoryService.getAll();
         return res.json(categorias);
 
     } catch (error) {
@@ -14,11 +15,11 @@ async function indexCategories(req, res) {
 }
 
 // Função para criar uma categoria
-async function storeCategories(req, res) {
+async storeCategories(req, res) {
     try {
-        const produto = req.body;
+        const categoria = req.body;
 
-        await Categorias.createCategories(produto);
+        await CategoryService.createCategories(categoria);
         res.status(201).json({message: "Categorias cadastrada com sucesso! "});
     } catch (error) {
         res.status(500).json({error: "Erro ao criar categorias" })
@@ -27,12 +28,12 @@ async function storeCategories(req, res) {
 }
 
 // Função para atualizar um categoria
-async function updateCategories(req, res) {
+async updateCategories(req, res) {
     try {
         const { id } = req.params;
         const categorias = req.body;
 
-        await Categorias.updateCategories(id, categorias);
+        await CategoryService.updateCategories(id, categorias);
         res.status(201).json({ message: "Categoria atualizada com sucesso! "})
     } catch ( error ) {
         res.json({ error: "Erro ao atualizar categoria!" })
@@ -41,11 +42,11 @@ async function updateCategories(req, res) {
 }
 
 // DELETE é uma palavra reservada, é um comando do JavaScript:
-async function destroyCategories(req, res) {
+async destroyCategories(req, res) {
     try {
         const { id } = req.params;
 
-        await Categorias.deleteCategories(id);
+        await CategoryService.deleteCategories(id);
         res.status(200).json({message: "Categoria removida com sucesso! "})
     }catch (error) {
      res.json({ message: "Erro ao remover categoria! "})
@@ -53,4 +54,6 @@ async function destroyCategories(req, res) {
 }
 // 200 esta na faixa de resultados bem sucedidos
 
-export default { indexCategories, storeCategories, updateCategories, destroyCategories }
+}
+
+export default new CategoryController ();
